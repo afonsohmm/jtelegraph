@@ -100,6 +100,10 @@ public class TelegraphQueue implements ActionListener {
 				timer.start();
 		}
 	}
+        
+        public synchronized int getQueueCount() {
+            return queue.size();
+        }
 
 	/**
 	 * Listener for the {@link TelegraphQueue} in order to know when displaying
