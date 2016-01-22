@@ -49,637 +49,698 @@ import org.jtelegraph.icons.SimplicioIconProvider;
 
 /**
  * Holds the telegraph configuration.
- * 
+ *
  * @author Paulo Roberto Massa Cereda
  * @version 2.1
  * @since 2.0
  */
 public class TelegraphConfig {
-	/**
-	 * The {@link Font} to use for the title of the {@link Telegraph} object
-	 */
-	private Font titleFont;
-	/**
-	 * The {@link Font} to use for the description of the {@link Telegraph}
-	 * object
-	 */
-	private Font descriptionFont;
-	/**
-	 * The {@link Color} to use for the title of the {@link Telegraph} object
-	 */
-	private Color titleColor;
-	/**
-	 * The {@link Color} to use for the description of the {@link Telegraph}
-	 * object
-	 */
-	private Color descriptionColor;
-	/**
-	 * The {@link ImageIcon} to use as a background image for the whole
-	 * {@link Telegraph} object
-	 */
-	private ImageIcon backgroundImage;
-	/**
-	 * The {@link Color} to use as a background color for the whole
-	 * {@link Telegraph} object
-	 */
-	private Color backgroundColor;
-	/**
-	 * The {@link IconProvider} to use in order to get icons to display in the
-	 * {@link Telegraph} object
-	 */
-	private IconProvider iconProvider;
-	/**
-	 * The {@link ImageIcon} to display as icon of the {@link Telegraph} object.
-	 * Please notice that this element sperseds the usage of an
-	 * {@link IconProvider}...
-	 */
-	private ImageIcon icon;
-	/**
-	 * The {@link Color} to use for the borders of the {@link Telegraph} object
-	 */
-	private Color borderColor;
-	/**
-	 * The Thickness to use for the borders of the {@link Telegraph} object
-	 */
-	private int borderThickness;
-	/**
-	 * The time (in ms) to set for the apparition animation of the
-	 * {@link Telegraph} object
-	 */
-	private long inDuration;
-	/**
-	 * The time (in ms) to set for the disparition animation of the
-	 * {@link Telegraph} object
-	 */
-	private long outDuration;
-	/**
-	 * The time (in ms) the {@link Telegraph} object will stay visible on the
-	 * screen
-	 */
-	private long duration;
-	/**
-	 * Defines either the button is enabled (so {@link Telegraph} object is
-	 * blocked on the screen until user clicked on the button) or not
-	 */
-	private boolean buttonEnabled;
-	/**
-	 * The caption (text) to be written on the button of the {@link Telegraph}
-	 * object
-	 */
-	private String buttonCaption;
-	/**
-	 * The {@link ImageIcon} to be displayed on the button of the
-	 * {@link Telegraph} object
-	 */
-	private ImageIcon buttonIcon;
-	/**
-	 * The {@link TelegraphButtonAction} action to execute while clicking on the
-	 * button of the {@link Telegraph} object. Please see
-	 * {@link TelegraphButtonAction} documentation for usage.
-	 */
-	private TelegraphButtonAction buttonAction;
-	/**
-	 * Defines either the {@link Telegraph} object should stop while putting the
-	 * mouse pointer over it or not
-	 */
-	private boolean stopOnMouseOver;
-	/**
-	 * The distance the {@link Telegraph} object will appear from the screen
-	 */
-	private int distanceFromScreen;
-	/**
-	 * The {@link TelegraphPosition} of the {@link Telegraph} object's window
-	 */
-	private TelegraphPosition telegraphPosition;
-	/**
-	 * The actual screen's width
-	 */
-	private double screenWidth;
-	/**
-	 * The actual screen's height
-	 */
-	private double screenHeight;
-	/**
-	 * The {@link Telegraph} object's window width
-	 */
-	private int windowWidth;
-	/**
-	 * The {@link Telegraph} object's window height
-	 */
-	private int windowHeight;
-	/**
-	 * Defines either the audio notification are enabled for the current
-	 * {@link Telegraph} object or not
-	 */
-	private boolean audioEnabled;
-	/**
-	 * The {@link AudioInputStream} to be used to play the audio notification
-	 * for the current {@link Telegraph} object
-	 */
-	private AudioInputStream audioInputStream;
-	/**
-	 * The {@link MouseListener} to link to the whole {@link Telegraph} window
-	 * object in order to add interactions with the telegraphs.
-	 */
-	private MouseListener globalListener;
 
-	/**
-	 * Default constructor, which is used to define all the default
-	 * configuration
-	 */
-	public TelegraphConfig() {
-		titleFont = null;
-		descriptionFont = null;
-		titleColor = Color.BLACK;
-		descriptionColor = Color.BLACK;
-		backgroundImage = null;
-		backgroundColor = Color.WHITE;
-		iconProvider = SimplicioIconProvider.MESSAGE;
-		icon = null;
-		borderColor = Color.BLACK;
-		borderThickness = 2;
-		inDuration = 250;
-		outDuration = 250;
-		duration = 2000;
-		buttonEnabled = false;
-		buttonCaption = "OK";
-		buttonIcon = null;
-		buttonAction = null;
-		stopOnMouseOver = false;
-		distanceFromScreen = 20;
-		telegraphPosition = TelegraphPosition.TOP_LEFT;
-		{
-			// Get the screen size and set it...
-			final Rectangle rect = getScreenResolution();
-			screenWidth = rect.getWidth();
-			screenHeight = rect.getHeight();
-		}
-		audioEnabled = true;
-		try {
-			audioInputStream = AudioSystem
-					.getAudioInputStream(new BufferedInputStream(getClass()
-							.getResourceAsStream("/notify.wav")));
-		} catch (final Exception e) {
-			audioEnabled = false;
-			e.printStackTrace();
-		}
-		globalListener = null;
-	}
+    /**
+     * The {@link Font} to use for the title of the {@link Telegraph} object
+     */
+    private Font titleFont;
+    /**
+     * The {@link Font} to use for the description of the {@link Telegraph}
+     * object
+     */
+    private Font descriptionFont;
+    /**
+     * The {@link Color} to use for the title of the {@link Telegraph} object
+     */
+    private Color titleColor;
+    /**
+     * The {@link Color} to use for the description of the {@link Telegraph}
+     * object
+     */
+    private Color descriptionColor;
+    /**
+     * The {@link Color} to use for the description of the {@link Telegraph}
+     * object
+     */
+    private Color buttonFontColor;
+    /**
+     * The {@link ImageIcon} to use as a background image for the whole
+     * {@link Telegraph} object
+     */
+    private ImageIcon backgroundImage;
+    /**
+     * The {@link Color} to use as a background color for the whole
+     * {@link Telegraph} object
+     */
+    private Color backgroundColor;
+    /**
+     * The {@link Color} to use as a background color for the whole
+     * {@link Telegraph} object
+     */
+    private Color backgroundButtonColor;
+    /**
+     * The {@link IconProvider} to use in order to get icons to display in the
+     * {@link Telegraph} object
+     */
+    private IconProvider iconProvider;
+    /**
+     * The {@link ImageIcon} to display as icon of the {@link Telegraph} object.
+     * Please notice that this element sperseds the usage of an
+     * {@link IconProvider}...
+     */
+    private ImageIcon icon;
+    /**
+     * The {@link Color} to use for the borders of the {@link Telegraph} object
+     */
+    private Color borderColor;
+    /**
+     * The Thickness to use for the borders of the {@link Telegraph} object
+     */
+    private int borderThickness;
+    /**
+     * The time (in ms) to set for the apparition animation of the
+     * {@link Telegraph} object
+     */
+    private long inDuration;
+    /**
+     * The time (in ms) to set for the disparition animation of the
+     * {@link Telegraph} object
+     */
+    private long outDuration;
+    /**
+     * The time (in ms) the {@link Telegraph} object will stay visible on the
+     * screen
+     */
+    private long duration;
+    /**
+     * Defines either the button is enabled (so {@link Telegraph} object is
+     * blocked on the screen until user clicked on the button) or not
+     */
+    private boolean buttonEnabled;
+    /**
+     * The caption (text) to be written on the button of the {@link Telegraph}
+     * object
+     */
+    private String buttonCaption;
+    /**
+     * The caption (text) to be written on the button of the {@link Telegraph}
+     * object
+     */
+    private String buttonCloseCaption;
+    /**
+     * The {@link ImageIcon} to be displayed on the button of the
+     * {@link Telegraph} object
+     */
+    private ImageIcon buttonIcon;
+    /**
+     * The {@link ImageIcon} to be displayed on the button of the
+     * {@link Telegraph} object
+     */
+    private ImageIcon buttonCloseIcon;
+    /**
+     * The {@link TelegraphButtonAction} action to execute while clicking on the
+     * button of the {@link Telegraph} object. Please see
+     * {@link TelegraphButtonAction} documentation for usage.
+     */
+    private TelegraphButtonAction buttonAction;
+    /**
+     * Defines either the {@link Telegraph} object should stop while putting the
+     * mouse pointer over it or not
+     */
+    private boolean stopOnMouseOver;
+    /**
+     * The distance the {@link Telegraph} object will appear from the screen
+     */
+    private int distanceFromScreen;
+    /**
+     * The {@link TelegraphPosition} of the {@link Telegraph} object's window
+     */
+    private TelegraphPosition telegraphPosition;
+    /**
+     * The actual screen's width
+     */
+    private double screenWidth;
+    /**
+     * The actual screen's height
+     */
+    private double screenHeight;
+    /**
+     * The {@link Telegraph} object's window width
+     */
+    private int windowWidth;
+    /**
+     * The {@link Telegraph} object's window height
+     */
+    private int windowHeight;
+    /**
+     * Defines either the audio notification are enabled for the current
+     * {@link Telegraph} object or not
+     */
+    private boolean audioEnabled;
+    /**
+     * The {@link AudioInputStream} to be used to play the audio notification
+     * for the current {@link Telegraph} object
+     */
+    private AudioInputStream audioInputStream;
+    /**
+     * The {@link MouseListener} to link to the whole {@link Telegraph} window
+     * object in order to add interactions with the telegraphs.
+     */
+    private MouseListener globalListener;
+    /**
+     * The caption (text) to be written on the company Label of the
+     * {@link Telegraph} object
+     */
+    private String companyLabel;
+    /**
+     * The {@link Color} to use for the company of the {@link Telegraph} object
+     */
+    private Color companyColor;
 
-	/**
-	 * @return {@link #titleFont}
-	 */
-	public Font getTitleFont() {
-		return titleFont;
-	}
+    /**
+     * Default constructor, which is used to define all the default
+     * configuration
+     */
+    public TelegraphConfig() {
+        titleFont = null;
+        descriptionFont = null;
+        titleColor = Color.BLACK;
+        descriptionColor = Color.BLACK;
+        buttonFontColor = Color.BLACK;
+        backgroundImage = null;
+        backgroundColor = Color.WHITE;
+        backgroundButtonColor = Color.WHITE;
+        iconProvider = SimplicioIconProvider.MESSAGE;
+        icon = null;
+        borderColor = Color.BLACK;
+        borderThickness = 2;
+        inDuration = 250;
+        outDuration = 250;
+        duration = 2000;
+        buttonEnabled = false;
+        buttonCaption = "OK";
+        buttonCloseCaption = "CANCEL";
+        buttonIcon = null;
+        buttonCloseIcon = null;
+        buttonAction = null;
+        stopOnMouseOver = false;
+        distanceFromScreen = 20;
+        telegraphPosition = TelegraphPosition.TOP_LEFT;
+        {
+            // Get the screen size and set it...
+            final Rectangle rect = getScreenResolution();
+            screenWidth = rect.getWidth();
+            screenHeight = rect.getHeight();
+        }
+        audioEnabled = true;
+        try {
+            audioInputStream = AudioSystem
+                    .getAudioInputStream(new BufferedInputStream(getClass()
+                            .getResourceAsStream("/notify.wav")));
+        } catch (final Exception e) {
+            audioEnabled = false;
+            e.printStackTrace();
+        }
+        globalListener = null;
+        companyLabel = null;
+        companyColor = Color.GRAY;
+    }
 
-	/**
-	 * @param titleFont
-	 *            {@link #titleFont}
-	 */
-	public void setTitleFont(final Font titleFont) {
-		this.titleFont = titleFont;
-	}
+    /**
+     * @return {@link #titleFont}
+     */
+    public Font getTitleFont() {
+        return titleFont;
+    }
 
-	/**
-	 * @return {@link #descriptionFont}
-	 */
-	public Font getDescriptionFont() {
-		return descriptionFont;
-	}
+    /**
+     * @param titleFont {@link #titleFont}
+     */
+    public void setTitleFont(final Font titleFont) {
+        this.titleFont = titleFont;
+    }
 
-	/**
-	 * @param descriptionFont
-	 *            {@link #descriptionFont}
-	 */
-	public void setDescriptionFont(final Font descriptionFont) {
-		this.descriptionFont = descriptionFont;
-	}
+    /**
+     * @return {@link #descriptionFont}
+     */
+    public Font getDescriptionFont() {
+        return descriptionFont;
+    }
 
-	/**
-	 * @return {@link #titleColor}
-	 */
-	public Color getTitleColor() {
-		return titleColor;
-	}
+    /**
+     * @param descriptionFont {@link #descriptionFont}
+     */
+    public void setDescriptionFont(final Font descriptionFont) {
+        this.descriptionFont = descriptionFont;
+    }
 
-	/**
-	 * @param titleColor
-	 *            {@link #titleColor}
-	 */
-	public void setTitleColor(final Color titleColor) {
-		this.titleColor = titleColor;
-	}
+    /**
+     * @return {@link #titleColor}
+     */
+    public Color getTitleColor() {
+        return titleColor;
+    }
 
-	/**
-	 * @return {@link #descriptionColor}
-	 */
-	public Color getDescriptionColor() {
-		return descriptionColor;
-	}
+    /**
+     * @param titleColor {@link #titleColor}
+     */
+    public void setTitleColor(final Color titleColor) {
+        this.titleColor = titleColor;
+    }
 
-	/**
-	 * @param descriptionColor
-	 *            {@link #descriptionColor}
-	 */
-	public void setDescriptionColor(final Color descriptionColor) {
-		this.descriptionColor = descriptionColor;
-	}
+    /**
+     * @return {@link #descriptionColor}
+     */
+    public Color getDescriptionColor() {
+        return descriptionColor;
+    }
 
-	/**
-	 * @return {@link #backgroundImage}
-	 */
-	public ImageIcon getBackgroundImage() {
-		return backgroundImage;
-	}
+    /**
+     * @param descriptionColor {@link #descriptionColor}
+     */
+    public void setDescriptionColor(final Color descriptionColor) {
+        this.descriptionColor = descriptionColor;
+    }
 
-	/**
-	 * @param backgroundImage
-	 *            {@link #backgroundImage}
-	 */
-	public void setBackgroundImage(final ImageIcon backgroundImage) {
-		this.backgroundImage = backgroundImage;
-	}
+    public Color getButtonFontColor() {
+        return buttonFontColor;
+    }
 
-	/**
-	 * @return {@link #backgroundColor}
-	 */
-	public Color getBackgroundColor() {
-		return backgroundColor;
-	}
+    public void setButtonFontColor(Color buttonFontColor) {
+        this.buttonFontColor = buttonFontColor;
+    }
+    
+    
 
-	/**
-	 * @param backgroundColor
-	 *            {@link #backgroundColor}
-	 */
-	public void setBackgroundColor(final Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
-	}
+    /**
+     * @return {@link #backgroundImage}
+     */
+    public ImageIcon getBackgroundImage() {
+        return backgroundImage;
+    }
 
-	/**
-	 * @return {@link #iconProvider}
-	 */
-	public IconProvider getIconProvider() {
-		return iconProvider;
-	}
+    /**
+     * @param backgroundImage {@link #backgroundImage}
+     */
+    public void setBackgroundImage(final ImageIcon backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
 
-	/**
-	 * @param iconProvider
-	 *            {@link #iconProvider}
-	 */
-	public void setIconProvider(final IconProvider iconProvider) {
-		this.iconProvider = iconProvider;
-	}
+    /**
+     * @return {@link #backgroundColor}
+     */
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
 
-	/**
-	 * This method allows to send the icon. If no icon has been precisely
-	 * defined, it'll check if an {@link IconProvider} has been defined to get
-	 * the icon and get the {@link ImageIcon} from it.
-	 * 
-	 * @return the {@link ImageIcon} defined either in the {@link #icon} field,
-	 *         or the one coming from the {@link IconProvider} defined in the
-	 *         {@link #iconProvider} field
-	 */
-	public ImageIcon getIcon() {
-		return icon == null ? iconProvider != null ? iconProvider.getIcon()
-				: SimplicioIconProvider.MESSAGE.getIcon() : icon;
-	}
+    /**
+     * @param backgroundColor {@link #backgroundColor}
+     */
+    public void setBackgroundColor(final Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
 
-	/**
-	 * @param icon
-	 *            {@link #icon}
-	 */
-	public void setIcon(final ImageIcon icon) {
-		this.icon = icon;
-	}
+    public Color getBackgroundButtonColor() {
+        return backgroundButtonColor;
+    }
 
-	/**
-	 * @return {@link #borderColor}
-	 */
-	public Color getBorderColor() {
-		return borderColor;
-	}
+    public void setBackgroundButtonColor(Color backgroundButtonColor) {
+        this.backgroundButtonColor = backgroundButtonColor;
+    }
 
-	/**
-	 * @param borderColor
-	 *            {@link #borderColor}
-	 */
-	public void setBorderColor(final Color borderColor) {
-		this.borderColor = borderColor;
-	}
+    /**
+     * @return {@link #iconProvider}
+     */
+    public IconProvider getIconProvider() {
+        return iconProvider;
+    }
 
-	/**
-	 * @return {@link #borderThickness}
-	 */
-	public int getBorderThickness() {
-		return borderThickness;
-	}
+    /**
+     * @param iconProvider {@link #iconProvider}
+     */
+    public void setIconProvider(final IconProvider iconProvider) {
+        this.iconProvider = iconProvider;
+    }
 
-	/**
-	 * @param borderThickness
-	 *            {@link #borderThickness}
-	 */
-	public void setBorderThickness(final int borderThickness) {
-		this.borderThickness = borderThickness;
-	}
+    /**
+     * This method allows to send the icon. If no icon has been precisely
+     * defined, it'll check if an {@link IconProvider} has been defined to get
+     * the icon and get the {@link ImageIcon} from it.
+     *
+     * @return the {@link ImageIcon} defined either in the {@link #icon} field,
+     * or the one coming from the {@link IconProvider} defined in the
+     * {@link #iconProvider} field
+     */
+    public ImageIcon getIcon() {
+        return icon == null ? iconProvider != null ? iconProvider.getIcon()
+                : SimplicioIconProvider.MESSAGE.getIcon() : icon;
+    }
 
-	/**
-	 * @return {@link #inDuration}
-	 */
-	public long getInDuration() {
-		return inDuration;
-	}
+    /**
+     * @param icon {@link #icon}
+     */
+    public void setIcon(final ImageIcon icon) {
+        this.icon = icon;
+    }
 
-	/**
-	 * @param inDuration
-	 *            {@link #inDuration}
-	 */
-	public void setInDuration(final long inDuration) {
-		this.inDuration = inDuration;
-	}
+    /**
+     * @return {@link #borderColor}
+     */
+    public Color getBorderColor() {
+        return borderColor;
+    }
 
-	/**
-	 * @return {@link #outDuration}
-	 */
-	public long getOutDuration() {
-		return outDuration;
-	}
+    /**
+     * @param borderColor {@link #borderColor}
+     */
+    public void setBorderColor(final Color borderColor) {
+        this.borderColor = borderColor;
+    }
 
-	/**
-	 * @param outDuration
-	 *            {@link #outDuration}
-	 */
-	public void setOutDuration(final long outDuration) {
-		this.outDuration = outDuration;
-	}
+    /**
+     * @return {@link #borderThickness}
+     */
+    public int getBorderThickness() {
+        return borderThickness;
+    }
 
-	/**
-	 * @return {@link #duration}
-	 */
-	public long getDuration() {
-		return duration;
-	}
+    /**
+     * @param borderThickness {@link #borderThickness}
+     */
+    public void setBorderThickness(final int borderThickness) {
+        this.borderThickness = borderThickness;
+    }
 
-	/**
-	 * @param duration
-	 *            {@link #duration}
-	 */
-	public void setDuration(final long duration) {
-		this.duration = duration;
-	}
+    /**
+     * @return {@link #inDuration}
+     */
+    public long getInDuration() {
+        return inDuration;
+    }
 
-	/**
-	 * @return {@link #buttonEnabled}
-	 */
-	public boolean isButtonEnabled() {
-		return buttonEnabled;
-	}
+    /**
+     * @param inDuration {@link #inDuration}
+     */
+    public void setInDuration(final long inDuration) {
+        this.inDuration = inDuration;
+    }
 
-	/**
-	 * @param buttonEnabled
-	 *            {@link #buttonEnabled}
-	 */
-	public void setButtonEnabled(final boolean buttonEnabled) {
-		this.buttonEnabled = buttonEnabled;
-	}
+    /**
+     * @return {@link #outDuration}
+     */
+    public long getOutDuration() {
+        return outDuration;
+    }
 
-	/**
-	 * @return {@link #buttonCaption}
-	 */
-	public String getButtonCaption() {
-		return buttonCaption;
-	}
+    /**
+     * @param outDuration {@link #outDuration}
+     */
+    public void setOutDuration(final long outDuration) {
+        this.outDuration = outDuration;
+    }
 
-	/**
-	 * @param buttonCaption
-	 *            {@link #buttonCaption}
-	 */
-	public void setButtonCaption(final String buttonCaption) {
-		this.buttonCaption = buttonCaption;
-	}
+    /**
+     * @return {@link #duration}
+     */
+    public long getDuration() {
+        return duration;
+    }
 
-	/**
-	 * @return {@link #buttonIcon}
-	 */
-	public ImageIcon getButtonIcon() {
-		return buttonIcon;
-	}
+    /**
+     * @param duration {@link #duration}
+     */
+    public void setDuration(final long duration) {
+        this.duration = duration;
+    }
 
-	/**
-	 * @param buttonIcon
-	 *            {@link #buttonIcon}
-	 */
-	public void setButtonIcon(final ImageIcon buttonIcon) {
-		this.buttonIcon = buttonIcon;
-	}
+    /**
+     * @return {@link #buttonEnabled}
+     */
+    public boolean isButtonEnabled() {
+        return buttonEnabled;
+    }
 
-	/**
-	 * @return {@link #buttonAction}
-	 */
-	public TelegraphButtonAction getButtonAction() {
-		return buttonAction;
-	}
+    /**
+     * @param buttonEnabled {@link #buttonEnabled}
+     */
+    public void setButtonEnabled(final boolean buttonEnabled) {
+        this.buttonEnabled = buttonEnabled;
+    }
 
-	/**
-	 * @param action
-	 *            {@link #buttonAction}
-	 */
-	public void setButtonAction(final TelegraphButtonAction action) {
-		buttonAction = action;
-	}
+    /**
+     * @return {@link #buttonCaption}
+     */
+    public String getButtonCaption() {
+        return buttonCaption;
+    }
 
-	/**
-	 * @return {@link #stopOnMouseOver}
-	 */
-	public boolean isStoppedOnMouseOver() {
-		return stopOnMouseOver;
-	}
+    /**
+     * @param buttonCaption {@link #buttonCaption}
+     */
+    public void setButtonCaption(final String buttonCaption) {
+        this.buttonCaption = buttonCaption;
+    }
 
-	/**
-	 * @param stopOnMouseOver
-	 *            {@link #stopOnMouseOver}
-	 */
-	public void setStopOnMouseOver(final boolean stopOnMouseOver) {
-		this.stopOnMouseOver = stopOnMouseOver;
-	}
+    public String getButtonCloseCaption() {
+        return buttonCloseCaption;
+    }
 
-	/**
-	 * @param distanceFromScreen
-	 *            {@link #distanceFromScreen}
-	 */
-	public void setDistanceFromScreen(final int distanceFromScreen) {
-		this.distanceFromScreen = distanceFromScreen;
-	}
+    public void setButtonCloseCaption(String buttonCloseCaption) {
+        this.buttonCloseCaption = buttonCloseCaption;
+    }
 
-	/**
-	 * @param telegraphPosition
-	 *            {@link #telegraphPosition}
-	 */
-	public void setTelegraphPosition(final TelegraphPosition telegraphPosition) {
-		this.telegraphPosition = telegraphPosition;
-	}
+    /**
+     * @return {@link #buttonIcon}
+     */
+    public ImageIcon getButtonIcon() {
+        return buttonIcon;
+    }
 
-	/**
-	 * @param windowWidth
-	 *            {@link #windowWidth}
-	 */
-	public void setWindowWidth(final int windowWidth) {
-		this.windowWidth = windowWidth;
-	}
+    /**
+     * @param buttonIcon {@link #buttonIcon}
+     */
+    public void setButtonIcon(final ImageIcon buttonIcon) {
+        this.buttonIcon = buttonIcon;
+    }
 
-	/**
-	 * @param windowHeight
-	 *            {@link #windowHeight}
-	 */
-	public void setWindowHeight(final int windowHeight) {
-		this.windowHeight = windowHeight;
-	}
+    public ImageIcon getButtonCloseIcon() {
+        return buttonCloseIcon;
+    }
 
-	/**
-	 * @return {@link #audioEnabled}
-	 */
-	public boolean isAudioEnabled() {
-		return audioEnabled;
-	}
+    public void setButtonCloseIcon(ImageIcon buttonCloseIcon) {
+        this.buttonCloseIcon = buttonCloseIcon;
+    }
 
-	/**
-	 * @param audioEnabled
-	 *            {@link #audioEnabled}
-	 */
-	public void setAudioEnabled(final boolean audioEnabled) {
-		this.audioEnabled = audioEnabled;
-	}
+    /**
+     * @return {@link #buttonAction}
+     */
+    public TelegraphButtonAction getButtonAction() {
+        return buttonAction;
+    }
 
-	/**
-	 * @return {@link #audioInputStream}
-	 */
-	public AudioInputStream getAudioInputStream() {
-		return audioInputStream;
-	}
+    /**
+     * @param action {@link #buttonAction}
+     */
+    public void setButtonAction(final TelegraphButtonAction action) {
+        buttonAction = action;
+    }
 
-	/**
-	 * @param audioInputStream
-	 *            {@link #audioInputStream}
-	 */
-	public void setAudioInputStream(final AudioInputStream audioInputStream) {
-		this.audioInputStream = audioInputStream;
-	}
+    /**
+     * @return {@link #stopOnMouseOver}
+     */
+    public boolean isStoppedOnMouseOver() {
+        return stopOnMouseOver;
+    }
 
-	/**
-	 * @return {@link #globalListener}
-	 */
-	public MouseListener getGlobalListener() {
-		return globalListener;
-	}
+    /**
+     * @param stopOnMouseOver {@link #stopOnMouseOver}
+     */
+    public void setStopOnMouseOver(final boolean stopOnMouseOver) {
+        this.stopOnMouseOver = stopOnMouseOver;
+    }
 
-	/**
-	 * @param listener
-	 *            {@link #globalListener}
-	 */
-	public void setGlobalListener(final MouseListener listener) {
-		globalListener = listener;
-	}
+    /**
+     * @param distanceFromScreen {@link #distanceFromScreen}
+     */
+    public void setDistanceFromScreen(final int distanceFromScreen) {
+        this.distanceFromScreen = distanceFromScreen;
+    }
 
-	/**
-	 * Calculates the initial coordinates.
-	 * 
-	 * @return A point.
-	 */
-	protected Point getInitialCoordinates() {
-		// the points
-		int positionX;
-		int positionY;
+    /**
+     * @param telegraphPosition {@link #telegraphPosition}
+     */
+    public void setTelegraphPosition(final TelegraphPosition telegraphPosition) {
+        this.telegraphPosition = telegraphPosition;
+    }
 
-		// check the option
-		switch (telegraphPosition) {
-		case BOTTOM_CENTER:
-			positionX = (int) (screenWidth / 2 - windowWidth / 2);
-			positionY = (int) (screenHeight + windowHeight);
-			break;
-		case TOP_CENTER:
-			positionX = (int) (screenWidth / 2 - windowWidth / 2);
-			positionY = -windowHeight;
-			break;
-		case TOP_LEFT:
-			positionX = -windowWidth;
-			positionY = -windowHeight;
-			break;
-		case BOTTOM_LEFT:
-			positionX = -windowWidth;
-			positionY = (int) screenHeight;
-			break;
-		case TOP_RIGHT:
-			positionX = (int) screenWidth;
-			positionY = -windowHeight;
-			break;
-		case BOTTOM_RIGHT:
-			positionX = (int) screenWidth;
-			positionY = (int) (screenHeight + windowHeight);
-			break;
-		default:
-			positionX = 0;
-			positionY = 0;
-		}
-		// return new point
-		return new Point(positionX, positionY);
-	}
+    /**
+     * @param windowWidth {@link #windowWidth}
+     */
+    public void setWindowWidth(final int windowWidth) {
+        this.windowWidth = windowWidth;
+    }
 
-	/**
-	 * Calculates the final coordinates.
-	 * 
-	 * @return The point.
-	 */
-	protected Point getFinalCoordinates() {
-		// the points
-		int positionX;
-		int positionY;
+    /**
+     * @param windowHeight {@link #windowHeight}
+     */
+    public void setWindowHeight(final int windowHeight) {
+        this.windowHeight = windowHeight;
+    }
 
-		// check the option
-		switch (telegraphPosition) {
-		case BOTTOM_CENTER:
-			positionX = (int) (screenWidth / 2 - windowWidth / 2);
-			positionY = (int) (screenHeight - windowHeight - distanceFromScreen);
-			break;
-		case TOP_CENTER:
-			positionX = (int) (screenWidth / 2 - windowWidth / 2);
-			positionY = distanceFromScreen;
-			break;
-		case TOP_LEFT:
-			positionX = distanceFromScreen;
-			positionY = distanceFromScreen;
-			break;
-		case BOTTOM_LEFT:
-			positionX = distanceFromScreen;
-			positionY = (int) (screenHeight - windowHeight - distanceFromScreen);
-			break;
-		case TOP_RIGHT:
-			positionX = (int) (screenWidth - windowWidth - distanceFromScreen);
-			positionY = distanceFromScreen;
-			break;
-		case BOTTOM_RIGHT:
-			positionX = (int) (screenWidth - windowWidth - distanceFromScreen);
-			positionY = (int) (screenHeight - windowHeight - distanceFromScreen);
-			break;
-		default:
-			positionX = 0;
-			positionY = 0;
-		}
+    /**
+     * @return {@link #audioEnabled}
+     */
+    public boolean isAudioEnabled() {
+        return audioEnabled;
+    }
 
-		// return the new point
-		return new Point(positionX, positionY);
-	}
+    /**
+     * @param audioEnabled {@link #audioEnabled}
+     */
+    public void setAudioEnabled(final boolean audioEnabled) {
+        this.audioEnabled = audioEnabled;
+    }
 
-	/**
-	 * Gets the screen resolution.
-	 * 
-	 * @return The screen resolution.
-	 */
-	private Rectangle getScreenResolution() {
-		// get the environment
-		final GraphicsEnvironment environment = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-		// return the bounds
-		return environment.getMaximumWindowBounds();
-	}
+    /**
+     * @return {@link #audioInputStream}
+     */
+    public AudioInputStream getAudioInputStream() {
+        return audioInputStream;
+    }
+
+    /**
+     * @param audioInputStream {@link #audioInputStream}
+     */
+    public void setAudioInputStream(final AudioInputStream audioInputStream) {
+        this.audioInputStream = audioInputStream;
+    }
+
+    /**
+     * @return {@link #globalListener}
+     */
+    public MouseListener getGlobalListener() {
+        return globalListener;
+    }
+
+    /**
+     * @param listener {@link #globalListener}
+     */
+    public void setGlobalListener(final MouseListener listener) {
+        globalListener = listener;
+    }
+
+    /**
+     * Calculates the initial coordinates.
+     *
+     * @return A point.
+     */
+    protected Point getInitialCoordinates() {
+        // the points
+        int positionX;
+        int positionY;
+
+        // check the option
+        switch (telegraphPosition) {
+            case BOTTOM_CENTER:
+                positionX = (int) (screenWidth / 2 - windowWidth / 2);
+                positionY = (int) (screenHeight + windowHeight);
+                break;
+            case TOP_CENTER:
+                positionX = (int) (screenWidth / 2 - windowWidth / 2);
+                positionY = -windowHeight;
+                break;
+            case TOP_LEFT:
+                positionX = -windowWidth;
+                positionY = -windowHeight;
+                break;
+            case BOTTOM_LEFT:
+                positionX = -windowWidth;
+                positionY = (int) screenHeight;
+                break;
+            case TOP_RIGHT:
+                positionX = (int) screenWidth;
+                positionY = -windowHeight;
+                break;
+            case BOTTOM_RIGHT:
+                positionX = (int) screenWidth;
+                positionY = (int) (screenHeight + windowHeight);
+                break;
+            default:
+                positionX = 0;
+                positionY = 0;
+        }
+        // return new point
+        return new Point(positionX, positionY);
+    }
+
+    /**
+     * Calculates the final coordinates.
+     *
+     * @return The point.
+     */
+    protected Point getFinalCoordinates() {
+        // the points
+        int positionX;
+        int positionY;
+
+        // check the option
+        switch (telegraphPosition) {
+            case BOTTOM_CENTER:
+                positionX = (int) (screenWidth / 2 - windowWidth / 2);
+                positionY = (int) (screenHeight - windowHeight - distanceFromScreen);
+                break;
+            case TOP_CENTER:
+                positionX = (int) (screenWidth / 2 - windowWidth / 2);
+                positionY = distanceFromScreen;
+                break;
+            case TOP_LEFT:
+                positionX = distanceFromScreen;
+                positionY = distanceFromScreen;
+                break;
+            case BOTTOM_LEFT:
+                positionX = distanceFromScreen;
+                positionY = (int) (screenHeight - windowHeight - distanceFromScreen);
+                break;
+            case TOP_RIGHT:
+                positionX = (int) (screenWidth - windowWidth - distanceFromScreen);
+                positionY = distanceFromScreen;
+                break;
+            case BOTTOM_RIGHT:
+                positionX = (int) (screenWidth - windowWidth - distanceFromScreen);
+                positionY = (int) (screenHeight - windowHeight - distanceFromScreen);
+                break;
+            default:
+                positionX = 0;
+                positionY = 0;
+        }
+
+        // return the new point
+        return new Point(positionX, positionY);
+    }
+
+    /**
+     * Gets the screen resolution.
+     *
+     * @return The screen resolution.
+     */
+    private Rectangle getScreenResolution() {
+        // get the environment
+        final GraphicsEnvironment environment = GraphicsEnvironment
+                .getLocalGraphicsEnvironment();
+        // return the bounds
+        return environment.getMaximumWindowBounds();
+    }
+
+    public String getCompanyLabel() {
+        return companyLabel;
+    }
+
+    public void setCompanyLabel(String companyLabel) {
+        this.companyLabel = companyLabel;
+    }
+
+    public Color getCompanyColor() {
+        return companyColor;
+    }
+
+    public void setCompanyColor(Color companyColor) {
+        this.companyColor = companyColor;
+    }
 
 }

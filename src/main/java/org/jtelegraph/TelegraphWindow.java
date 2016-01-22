@@ -33,6 +33,7 @@
  */
 package org.jtelegraph;
 
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -50,196 +51,235 @@ import org.pushingpixels.trident.Timeline;
 
 /**
  * Implements the telegraph window.
- * 
+ *
  * @author Paulo Roberto Massa Cereda
  * @version 2.1
  * @since 2.0
  */
 @SuppressWarnings("serial")
 public class TelegraphWindow extends JWindow {
-	/**
-	 * The {@link TelegraphConfig} configuration to be used by the
-	 * {@link Telegraph} window
-	 */
-	private final TelegraphConfig config;
-	/**
-	 * The title of the {@link Telegraph} object
-	 */
-	String title;
-	/**
-	 * The description of the {@link Telegraph} object
-	 */
-	String description;
-	/**
-	 * The {@link Timeline} to be used for the animation...
-	 */
-	private Timeline timeline;
-	/**
-	 * Defines either the window has been discarded by clicking on the button or
-	 * not...
-	 */
-	private boolean discarded = false;
 
-	/**
-	 * Default constructor which initializes everything...
-	 * 
-	 * @param theTitle
-	 *            {@link #title}
-	 * @param theDescription
-	 *            {@link #description}
-	 * @param theConfig
-	 *            {@link #config}
-	 */
-	public TelegraphWindow(final String theTitle, final String theDescription,
-			final TelegraphConfig theConfig) {
-		super();
-		title = theTitle;
-		description = theDescription;
-		config = theConfig;
+    /**
+     * The {@link TelegraphConfig} configuration to be used by the
+     * {@link Telegraph} window
+     */
+    private final TelegraphConfig config;
+    /**
+     * The title of the {@link Telegraph} object
+     */
+    String title;
+    /**
+     * The description of the {@link Telegraph} object
+     */
+    String description;
+    /**
+     * The {@link Timeline} to be used for the animation...
+     */
+    private Timeline timeline;
+    /**
+     * Defines either the window has been discarded by clicking on the button or
+     * not...
+     */
+    private boolean discarded = false;
 
-		// Creating borders...
-		getRootPane().setBorder(
-				new MatteBorder(config.getBorderThickness(), config
-						.getBorderThickness(), config.getBorderThickness(),
-						config.getBorderThickness(), config.getBorderColor()));
+    /**
+     * Default constructor which initializes everything...
+     *
+     * @param theTitle {@link #title}
+     * @param theDescription {@link #description}
+     * @param theConfig {@link #config}
+     */
+    public TelegraphWindow(final String theTitle, final String theDescription,
+            final TelegraphConfig theConfig) {
+        super();
+        title = theTitle;
+        description = theDescription;
+        config = theConfig;
 
-		// Setting layout
-		setLayout(new MigLayout());
+        // Creating borders...
+        getRootPane().setBorder(
+                new MatteBorder(config.getBorderThickness(), config
+                        .getBorderThickness(), config.getBorderThickness(),
+                        config.getBorderThickness(), config.getBorderColor()));
 
-		// Setting background color
-		getRootPane().setBackground(config.getBackgroundColor());
+        // Setting layout
+        setLayout(new MigLayout());
 
-		// Setting background image
-		if (config.getBackgroundImage() != null) {
-			// Need to use a label with the image...
-			final JLabel labelBackground = new JLabel(
-					config.getBackgroundImage());
-			// Set the bounds
-			labelBackground.setBounds(0, 0, config.getBackgroundImage()
-					.getIconWidth(), config.getBackgroundImage()
-					.getIconHeight());
-			// And add it to the panel
-			getLayeredPane().add(labelBackground,
-					new Integer(Integer.MIN_VALUE));
-		}
-		// Creating a new Panel
-		final JPanel contentPanel = new JPanel();
-		contentPanel.setOpaque(false);
+        // Setting background color
+        getRootPane().setBackground(config.getBackgroundColor());
 
-		// Setting new Layout
-		contentPanel.setLayout(new MigLayout("ins dialog, gapx 15, hidemode 3",
-				"15[][grow]15", "15[][grow][]15"));
+        // Setting background image
+        if (config.getBackgroundImage() != null) {
+            // Need to use a label with the image...
+            final JLabel labelBackground = new JLabel(
+                    config.getBackgroundImage());
+            // Set the bounds
+            labelBackground.setBounds(0, 0, config.getBackgroundImage()
+                    .getIconWidth(), config.getBackgroundImage()
+                    .getIconHeight());
+            // And add it to the panel
+            getLayeredPane().add(labelBackground,
+                    new Integer(Integer.MIN_VALUE));
+        }
+        // Creating a new Panel
+        final JPanel contentPanel = new JPanel();
+        contentPanel.setOpaque(false);
 
-		// Creating the icon
-		final JLabel icon = new JLabel(config.getIcon());
-		contentPanel.add(icon, "cell 0 0 0 2, align center");
+        // Setting new Layout
+        contentPanel.setLayout(new MigLayout("ins dialog, gapx 15, hidemode 3",
+                "15[][grow]15", "15[][grow][]15"));
 
-		// Creating the title
-		final String strTitle = String.format(
-				"<html><div style=\"width:%dpx;\">%s</div><html>", 200, title);
-		final JLabel lblTitle = new JLabel("<html>" + strTitle + "</html>");
+        // Creating the icon
+        final JLabel icon = new JLabel(config.getIcon());
+        contentPanel.add(icon, "cell 0 0 0 2, align center");
 
-		// Setting default font if nothing's provided
-		if (config.getTitleFont() == null)
-			lblTitle.setFont(lblTitle.getFont().deriveFont(Font.BOLD, 14f));
-		else
-			// Set the one provided in the configuration
-			lblTitle.setFont(config.getTitleFont());
+        // Creating the companyLabel
+        if (config.getCompanyLabel() != null) {
+            final JLabel company = new JLabel(config.getCompanyLabel());
+            // Setting font's color
+            company.setForeground(config.getCompanyColor());
+            company.setFont(company.getFont().deriveFont(9f));
+            contentPanel.add(company, "cell 0 2 0 2, align center");
 
-		// Setting font's color
-		lblTitle.setForeground(config.getTitleColor());
+        }
 
-		// Creating the description
-		final String strDescription = String.format(
-				"<html><div style=\"width:%dpx;\">%s</div><html>", 200,
-				description);
-		final JLabel lblDescription = new JLabel(strDescription);
+        // Creating the title
+        final String strTitle = String.format(
+                "<html><div style=\"width:%dpx;\">%s</div><html>", 200, title);
+        final JLabel lblTitle = new JLabel("<html>" + strTitle + "</html>");
 
-		// If font has been provided in configuration, then set it...
-		if (config.getDescriptionFont() != null)
-			lblDescription.setFont(config.getDescriptionFont());
+        // Setting default font if nothing's provided
+        if (config.getTitleFont() == null) {
+            lblTitle.setFont(lblTitle.getFont().deriveFont(Font.BOLD, 14f));
+        } else // Set the one provided in the configuration
+        {
+            lblTitle.setFont(config.getTitleFont());
+        }
 
-		// Setting the description color
-		lblDescription.setForeground(config.getDescriptionColor());
+        // Setting font's color
+        lblTitle.setForeground(config.getTitleColor());
 
-		// Adding both title and description
-		contentPanel.add(lblTitle, "cell 1 0, aligny center");
-		contentPanel.add(lblDescription,
-				"cell 1 1, aligny center, growy, width 260!");
+        // Creating the description
+        final String strDescription = String.format(
+                "<html><div style=\"width:%dpx;\">%s</div><html>", 200,
+                description);
+        final JLabel lblDescription = new JLabel(strDescription);
 
-		// If the button is enabled
-		if (config.isButtonEnabled()) {
-			// Create a new button
-			final JButton button = new JButton(config.getButtonCaption());
-			// If there's an icon
-			if (config.getButtonIcon() != null)
-				// Add it to the button
-				button.setIcon(config.getButtonIcon());
-			// Add listener
-			button.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(final ActionEvent e) {
-					button.setEnabled(false);
-					if (config.getButtonAction() != null)
-						config.getButtonAction().doSomething();
-					timeline.play();
-					TelegraphWindow.this.discard();
-				}
-			});
-			// Adding the button to the panel
-			contentPanel.add(button, "cell 1 2, align right");
-		}
-		// Setting content to the window
-		setContentPane(contentPanel);
+        // If font has been provided in configuration, then set it...
+        if (config.getDescriptionFont() != null) {
+            lblDescription.setFont(config.getDescriptionFont());
+        }
 
-		// Setting the windows always on top
-		setAlwaysOnTop(true);
+        // Setting the description color
+        lblDescription.setForeground(config.getDescriptionColor());
 
-		// Packing everything
-		pack();
+        // Adding both title and description
+        contentPanel.add(lblTitle, "cell 1 0, aligny center");
+        contentPanel.add(lblDescription,
+                "cell 1 1, aligny center, growy, width 260!");
 
-		// Putting the window away
-		setBounds(-getWidth(), -getHeight(), getWidth(), getHeight());
+        // If the button is enabled
+        if (config.isButtonEnabled()) {
+            // Create a new button
+            final JButton button = new JButton(config.getButtonCaption());
+            // If there's an icon
+            if (config.getButtonIcon() != null) // Add it to the button
+            {
+                button.setIcon(config.getButtonIcon());
+            }
+            button.setBackground(config.getBackgroundButtonColor());
+            button.setForeground(config.getButtonFontColor());
+            button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            // Add listener
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    button.setEnabled(false);
+                    if (config.getButtonAction() != null) {
+                        config.getButtonAction().doSomething();
+                    }
+                    timeline.play();
+                    TelegraphWindow.this.discard();
+                }
+            });
+            // Adding the button to the panel
+            contentPanel.add(button, "cell 1 2, align right");
 
-		// Applying mouselistener from config if needed
-		if (config.getGlobalListener() != null)
-			addMouseListener(config.getGlobalListener());
-	}
+            if (config.getButtonCloseCaption() != null) {
+                // Create a new button
+                final JButton buttonClose = new JButton(config.getButtonCloseCaption());
+                // If there's an icon
+                if (config.getButtonCloseIcon() != null) // Add it to the button
+                {
+                    buttonClose.setIcon(config.getButtonCloseIcon());
+                }
+                // Add listener
+                buttonClose.setBackground(config.getBackgroundButtonColor());
+                buttonClose.setForeground(config.getButtonFontColor());
+                buttonClose.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                buttonClose.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(final ActionEvent e) {
+                        buttonClose.setEnabled(false);
+                        timeline.play();
+                        TelegraphWindow.this.discard();
+                    }
+                });
+                // Adding the button to the panel
+                contentPanel.add(buttonClose, "cell 1 2, align right");
+            }
+        }
+        // Setting content to the window
+        setContentPane(contentPanel);
 
-	/**
-	 * @param timeline
-	 *            {@link #timeline}
-	 */
-	public void setTimeline(final Timeline timeline) {
-		this.timeline = timeline;
-	}
+        // Setting the windows always on top
+        setAlwaysOnTop(true);
 
-	/**
-	 * @return {@link #discarded}
-	 */
-	public boolean isDiscarded() {
-		return discarded;
-	}
+        // Packing everything
+        pack();
 
-	/**
-	 * Allows to precise that window has been discarded by clicking on the
-	 * button...
-	 */
-	protected void discard() {
-		discarded = true;
-	}
+        // Putting the window away
+        setBounds(-getWidth(), -getHeight(), getWidth(), getHeight());
 
-	/**
-	 * Sets position on screen.
-	 * 
-	 * @param p
-	 *            The new position.
-	 */
-	public void setPosition(final Point p) {
-		if (!isVisible())
-			// show window
-			setVisible(true);
-		// set new location
-		setBounds(p.x, p.y, getWidth(), getHeight());
-	}
+        // Applying mouselistener from config if needed
+        if (config.getGlobalListener() != null) {
+            addMouseListener(config.getGlobalListener());
+        }
+    }
+
+    /**
+     * @param timeline {@link #timeline}
+     */
+    public void setTimeline(final Timeline timeline) {
+        this.timeline = timeline;
+    }
+
+    /**
+     * @return {@link #discarded}
+     */
+    public boolean isDiscarded() {
+        return discarded;
+    }
+
+    /**
+     * Allows to precise that window has been discarded by clicking on the
+     * button...
+     */
+    protected void discard() {
+        discarded = true;
+    }
+
+    /**
+     * Sets position on screen.
+     *
+     * @param p The new position.
+     */
+    public void setPosition(final Point p) {
+        if (!isVisible()) // show window
+        {
+            setVisible(true);
+        }
+        // set new location
+        setBounds(p.x, p.y, getWidth(), getHeight());
+    }
 }

@@ -194,11 +194,11 @@ public class Telegraph {
                     }
                 });
             }
-
+            // Configure the time the window should wait in the screen
+            timelineStay.setDuration(config.getDuration());
+            timelineStay.addCallback(new SimpleCallback(timelineAway));
         }
-        // Configure the time the window should wait in the screen
-        timelineStay.setDuration(config.getDuration());
-        timelineStay.addCallback(new SimpleCallback(timelineAway));
+
         // Add duration
         timelineIntro.setDuration(config.getInDuration());
 
